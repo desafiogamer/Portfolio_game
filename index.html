@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset=UTF-8 />
+	<title>Three.js</title>
+	<link rel="stylesheet" type="text/css" href="styles.css" />
+</head>
+<body>
+	<header class="header">
+		<div class="icone">Joao</div>
+		<nav>
+			<a href="">Inicio</a>
+			<a href="">Sobre</a>
+			<a href="">Login</a>
+		</nav>
+	</header>
+	<script type="importmap">
+		{
+			"imports": {
+			"three": "../build/three.module.js",
+			"three/addons/": "./jsm/"
+			}
+		}
+	</script>
+	<script src="./script.js" type="module"></script>
+</body>
+</html>
