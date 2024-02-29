@@ -1,23 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Tifinagh&display=swap');
+
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: 'Noto Sans Tifinagh', sans-serif;
+    outline: none;
 }
 
-body {
-    width: 100vw;
-    height: 100vh;
-    margin: 0;
-    background: black;
+canvas {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100dvh;
+    z-index: -1;
+}
 
+body{
+    overflow: hidden;
+    background: #11111f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#paraTrilha{
+    position: fixed;
+    right: 30px;
+    top: 30px;
+    color: white;
+    background: transparent;
+    font-size: 40px;
+    border: none;
+    cursor: pointer;
+}
+
+#ativarTrilha {
+    display: none;
+    position: fixed;
+    right: 30px;
+    top: 30px;
+    color: white;
+    background: transparent;
+    font-size: 40px;
+    border: none;
+    cursor: pointer;
+}
+
+section{
     overflow: hidden;
 }
 
-.header{
+#contact, #inicio, #about, #project{
     position: fixed;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 30px;
+    bottom: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+    z-index: 999;
+    background: #00000096;
+    backdrop-filter: blur(10px);
+    transition: .2s;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 10px 10px 10px black;
 }
 
+#projetos{
+    pointer-events: all;
+    cursor: pointer;
+    width: 100px;
+    height: 100px;
+}
+
+#projetos i{
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    padding-bottom: 50px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .3s;
+}
+
+#projetos i:hover {
+    color: #ffee00;
+}
+
+#contact.ativo, #inicio.ativo, #about.ativo, #project.ativo {
+    pointer-events: all;
+    color: #d2f3fc;
+    width: 95%;
+    height: 100vh;
+    animation: entrada .5s linear;
+}
+
+.fechar{
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background: transparent;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    border: 2px solid white;
+    color: white;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.fechar:hover{
+    color: red;
+    border: 2px solid red;
+}
+
+@keyframes entrada{
+    0%{
+        width: 0;
+        height: 0;
+    }
+
+    100%{
+        width: 100%;
+        height: 100vh;
+    }
+}
+
+.title{
+    margin-top: 50px;
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+
+#home, #contato, #projetos, #sobre{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: all;
+}
+
+#sobre{
+    padding-bottom: 40px;
+}
+
+#home p,
+#contato p,
+#projetos p,
+#sobre p{
+    color: white;
+    cursor: pointer;
+    padding-bottom: 150px;
+    padding-left: 30px;
+    padding-right: 30px;
+    background: transparent;
+    border: none;
+    transition: .3s;
+}
+
+#home button,
+#contato button,
+#sobre button{
+    pointer-events: all;
+    cursor: pointer;
+    background: #c4c4c446;
+    backdrop-filter: blur(20px);
+    border: none;
+    padding: 10px 20px;
+    box-shadow: 1px 5px 10px #000000c0;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: none;
+    transition: .3s;
+}
+
+#home button:hover,
+#contato button:hover,
+#projetos button:hover,
+#sobre button:hover {
+    color: #adff2f;
+}
+
+#home button.ativo,
+#contato button.ativo,
+#projetos button.ativo,
+#sobre button.ativo{
+    display: block;
+    animation: aparece .3s linear;
+    transition: .3s;
+}
+
+@keyframes aparece{
+    0%{
+        opacity: 0;
+    }
+
+    100%{
+        opacity: 1;
+    }
+}
+
+.projetosImg{
+    width: 300px;
+}
+
+#projetoOne{
+    pointer-events: all;
+    width: 250px;
+    height: 170px;
+    cursor: pointer;
+    color: #def0f5;
+}
+
+.conteudo{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: aparecer .5s linear;
+    background: #000000b7;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+@keyframes aparecer{
+    0%{
+        transform: translateX(-20px);
+        opacity: 0;
+    }
+
+    50%{
+        transform: translateX(30px);
+        opacity: 1;
+    }
+
+    100%{
+        transform: translateX(0px);
+    }
+}
+
+.conteudo a{
+    padding: 7px 20px;
+    border-radius: 10px;
+    background: transparent;
+    backdrop-filter: blur(20px);
+    box-shadow: 0px 0px 10px black;
+    margin-top: 20px;
+    color: white;
+}
+
+.conteudo p{
+    font-size: 15px;
+    line-height: 1.4;
+}
+
+.vozSkills{
+    pointer-events: all;
+    width: 85%;
+    height: 60px;
+    cursor: pointer;
+}
