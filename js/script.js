@@ -134,7 +134,7 @@ function init() {
     //chao
     function generateFloor() {
         const textureLoader = new THREE.TextureLoader();
-        const placeholder = textureLoader.load("./textures/placeholder/chao-de-madeira.jpg");
+        const placeholder = textureLoader.load("./textures/placeholder/forroMadeira.jpg");
         const WIDTH = 40
         const LENGTH = 20
         const geometry = new THREE.PlaneGeometry(WIDTH, LENGTH, 512, 512);
