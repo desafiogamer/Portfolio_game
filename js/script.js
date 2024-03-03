@@ -15,7 +15,6 @@ let scene,
     mixer, 
     mixer3, 
     mixerLivro,
-    mixerGuts,
     mixerCat
     
 function init() {
@@ -343,19 +342,6 @@ function init() {
         click.play()
     })
 
-    //section projeto
-    const sectionProjeto = document.getElementById('project')
-    const btnFechar4 = document.createElement('button')
-    sectionProjeto.appendChild(btnFechar4)
-    btnFechar4.className = 'fechar'
-    btnFechar4.textContent = 'X'
-
-    btnFechar4.addEventListener('click', ()=>{
-        sectionProjeto.classList.remove('ativo')
-        btnFechar4.style.display = 'none'
-        click.play()
-    })
-
     //section contato
     const section = document.getElementById('contact')
     const btnFechar = document.createElement('button')
@@ -674,7 +660,6 @@ function init() {
 
     btnLigar.style.display = 'none'
     btnAcender.addEventListener('click', ()=>{
-        scene.remove(guts)
         scene.remove(dirLight);
         scene.remove(ambientLight)
         scene.add(ambientLightBlack)
@@ -682,7 +667,6 @@ function init() {
         scene.add(flash3);
         scene.add(flash4);
         scene.add(flash5)
-        scene.add(gutsArmor)
         btnAcender.style.display = 'none'
         btnLigar.style.display = 'flex'
         acendendo.play()
@@ -694,10 +678,8 @@ function init() {
         scene.remove(flash4);
         scene.remove(flash5)
         scene.remove(ambientLightBlack)
-        scene.remove(gutsArmor)
         scene.add(dirLight);
         scene.add(ambientLight)
-        scene.add(guts)
         btnAcender.style.display = 'flex'
         btnLigar.style.display = 'none'
         acendendo.play()
@@ -707,7 +689,7 @@ function init() {
 
     //personagem controlado
     const loader = new GLTFLoader().setPath('./models/');
-    loader.load('Personagem.glb', function (glft) {
+    loader.load('personagem2.glb', function (glft) {
         const model = glft.scene
         model.scale.set(1.2,1.2,1.2)
         model.traverse(function(object){
@@ -818,36 +800,16 @@ function init() {
         guts.rotation.y = -1.5
         guts.position.set(18.8, 0.3, 1)
         scene.add(guts)
-    })
-
-    
-    //guts berserk armor
-    const gutsArmor = new THREE.Object3D()
-
-    loader.load('berserk_armor.glb', function (glft) {
-        gutsArmor.add(glft.scene)
-        gutsArmor.traverse(function(object){
-            if(object.isMesh) object.castShadow = true
-        })
-        gutsArmor.scale.set(1.5, 1.5, 1.5)
-        gutsArmor.rotation.y = 1
-        gutsArmor.position.set(18.8, 0, 1)
-        mixerGuts = new THREE.AnimationMixer(gutsArmor);
         pContainer3.addEventListener('mousemove', ()=>{
             btn3.className = 'ativo'
-            glft.animations.forEach((clip) => {
-                mixerGuts.clipAction(clip).play();
-                mixerGuts.clipAction(clip).clampWhenFinished = true;
-            });
         })
        
         pContainer3.addEventListener('mouseout', ()=>{
             btn3.className = 'remove'
-            glft.animations.forEach((clip) => {
-                mixerGuts.clipAction(clip).stop();
-            });
         })
     })
+
+
 
     //mesa
     const Mesa = new THREE.Object3D()
@@ -915,6 +877,27 @@ function init() {
         (keysPressed)[event.key.toLowerCase()] = false
     }, false)
 
+    //meu card
+    var card = document.querySelector('.card');
+    var rotateClass = 'rotate'; // demo
+    var updateProperies = function (ratioX, ratioY) {
+        card.style.setProperty('--ratio-x', ratioX);
+        card.style.setProperty('--ratio-y', ratioY);
+    };
+    var updatePointerPosition = function (_a) {
+        var x = _a.x, y = _a.y;
+        card.classList.remove(rotateClass);
+        var rect = card.getBoundingClientRect();
+        var hw = rect.width / 2;
+        var hh = rect.height / 2;
+        var ratioX = (x - (rect.x + hw)) / hw;
+        var ratioY = (y - (rect.y + hh)) / hh;
+        updateProperies(ratioX, ratioY);
+    };
+    card.addEventListener('pointermove', updatePointerPosition);
+    card.addEventListener('pointerleave', function () { return updateProperies(0, 0); });
+
+
     //reponsividade cena 3D
     window.addEventListener('resize', function(){ 
         camera.aspect = this.window.innerWidth / this.window.innerHeight
@@ -935,7 +918,6 @@ function animate() {
         if (mixer) mixer.update(mixerupdateDelta);
         if (mixer3) mixer3.update(mixerupdateDelta);
         if (mixerLivro) mixerLivro.update(mixerupdateDelta);
-        if (mixerGuts) mixerGuts.update(mixerupdateDelta);
         if (mixerCat) mixerCat.update(mixerupdateDelta);
         orbitControls.update();
 
