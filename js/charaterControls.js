@@ -72,7 +72,7 @@ export class CharacterControls {
                 (this.camera.position.x - this.model.position.x),
                 (this.camera.position.z - this.model.position.z))
             var directionOffset = this.directionOffset(keysPressed)
-
+            
             this.rotateQuarternion.setFromAxisAngle(this.rotateAngle, angleYCameraDirection + directionOffset)
             this.model.quaternion.rotateTowards(this.rotateQuarternion, 0.2)
 
@@ -96,7 +96,7 @@ export class CharacterControls {
         this.camera.position.z += moveZ
 
         this.cameraTarget.x = this.model.position.x
-        this.cameraTarget.y = this.model.position.y + 1
+        this.cameraTarget.y = this.model.position.y + 1.3
         this.cameraTarget.z = this.model.position.z
         this.orbitControl.target = this.cameraTarget
         
@@ -107,22 +107,22 @@ export class CharacterControls {
         
         if (keysPressed[W]) {
             if (keysPressed[A]) {
-                directionOffset = Math.PI / 4
+                directionOffset = Math.PI / 4 // w+a
             } else if (keysPressed[D]) {
-                directionOffset = - Math.PI / 4
+                directionOffset = - Math.PI / 4 // w+d
             }
         } else if (keysPressed[S]) {
             if (keysPressed[A]) {
-                directionOffset = Math.PI / 4 + Math.PI / 2
+                directionOffset = Math.PI / 4 + Math.PI / 2 // s+a
             } else if (keysPressed[D]) {
-                directionOffset = -Math.PI / 4 - Math.PI / 2
+                directionOffset = -Math.PI / 4 - Math.PI / 2 // s+d
             } else {
-                directionOffset = Math.PI
+                directionOffset = Math.PI // s
             }
         } else if (keysPressed[A]) {
-            directionOffset = Math.PI / 2
+            directionOffset = Math.PI / 2 // a
         } else if (keysPressed[D]) {
-            directionOffset = - Math.PI / 2
+            directionOffset = - Math.PI / 2 // d
         }
 
         return directionOffset

@@ -51,16 +51,4 @@ export class KeyDisplay {
         this.map.get(SHIFT).style.left = `${50}px`
     }
 
-    down(key) {
-        if (this.map.get(key.toLowerCase())) {
-            this.map.get(key.toLowerCase()).style.color = 'red'
-        }
-    }
-
-    up(key) {
-        if (this.map.get(key.toLowerCase())) {
-            this.map.get(key.toLowerCase()).style.color = 'blue'
-        }
-    }
-
 } 

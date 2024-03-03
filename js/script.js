@@ -1,7 +1,7 @@
 import * as THREE from '../build/three.module.js';
-import {GLTFLoader} from '../../jsm/GLTFLoader.js';
+import {GLTFLoader} from '../jsm/GLTFLoader.js';
 import { CharacterControls } from './charaterControls.js';
-import {OrbitControls} from '../../jsm/OrbitControls.js';
+import {OrbitControls} from '../jsm/OrbitControls.js';
 import {CSS2DRenderer, CSS2DObject} from '../jsm/CSS2DRenderer.js'
 
 let scene,
@@ -31,15 +31,15 @@ function init() {
 
     const dirLight = new THREE.DirectionalLight(0xffffff, 1)
     dirLight.position.set(- 60, 100, - 10);
-    //dirLight.castShadow = true;
-    //dirLight.shadow.camera.top = 50;
-    //dirLight.shadow.camera.bottom = - 50;
-    //dirLight.shadow.camera.left = - 50;
-    //dirLight.shadow.camera.right = 50;
-    //dirLight.shadow.camera.near = 0.1;
-    //dirLight.shadow.camera.far = 200;
-    //dirLight.shadow.mapSize.width = 4096;
-    //dirLight.shadow.mapSize.height = 4096;
+    dirLight.castShadow = true;
+    dirLight.shadow.camera.top = 50;
+    dirLight.shadow.camera.bottom = - 50;
+    dirLight.shadow.camera.left = - 50;
+    dirLight.shadow.camera.right = 50;
+    dirLight.shadow.camera.near = 0.1;
+    dirLight.shadow.camera.far = 200;
+    dirLight.shadow.mapSize.width = 4096;
+    dirLight.shadow.mapSize.height = 4096;
     scene.add(dirLight);
 
     const ambientLightBlack = new THREE.AmbientLight(0x3d3d3d, 0.7)
@@ -146,6 +146,21 @@ function init() {
         scene.add(floor)
     }
 
+    tapete()
+
+    //tapete
+    function tapete() {
+        const textureLoader = new THREE.TextureLoader();
+        const placeholder = textureLoader.load("./textures/placeholder/tapete_text.jpg");
+        const geometry = new THREE.CircleGeometry(5, 32 );
+        const material = new THREE.MeshPhongMaterial({ map: placeholder})
+        const floor = new THREE.Mesh(geometry, material)
+        floor.receiveShadow = true
+        floor.rotation.x = - Math.PI / 2
+        floor.position.set(0,0.001,-5)
+        scene.add(floor)
+    }
+
     //parede frontal
     function generateParede() {
         const textureLoader = new THREE.TextureLoader();
@@ -207,7 +222,7 @@ function init() {
     //controles
     orbitControls = new OrbitControls(camera, renderer.domElement);
     orbitControls.enableDamping = true
-    orbitControls.minDistance = 5
+    orbitControls.minDistance = 5.7
     orbitControls.maxDistance = 15
     orbitControls.enablePan = false
     orbitControls.maxPolarAngle = Math.PI / 2 - 0.05
@@ -692,8 +707,9 @@ function init() {
 
     //personagem controlado
     const loader = new GLTFLoader().setPath('./models/');
-    loader.load('Soldier.glb', function (glft) {
+    loader.load('Personagem.glb', function (glft) {
         const model = glft.scene
+        model.scale.set(1.2,1.2,1.2)
         model.traverse(function(object){
             if(object.isMesh) object.castShadow = true
         })
@@ -702,6 +718,7 @@ function init() {
         const gltfAnimations = glft.animations
         const mixer = new THREE.AnimationMixer(model)
         const animationsMap = new Map()
+    
         gltfAnimations.filter(a => a.name != 'Tpose').forEach((a)=>{
             animationsMap.set(a.name, mixer.clipAction(a))
         })
@@ -719,7 +736,7 @@ function init() {
         })
         prateleira.scale.set(0.2, 0.2, 0.2)
         prateleira.rotation.y = -1.6
-        prateleira.position.set(19.5, 0, -5)
+        prateleira.position.set(19.5, 1, -5)
         scene.add(prateleira)
     })
 
@@ -749,9 +766,9 @@ function init() {
 
     loader.load('sofa.glb', function (glft) {
         sofa.add(glft.scene)
-        sofa.scale.set(2, 2, 2)
-        sofa.rotation.y = -1.5
-        sofa.position.set(19, 0.7, -5)
+        sofa.scale.set(2.8, 2.8, 2.8)
+        sofa.rotation.y = -1.55
+        sofa.position.set(18.7, 0.9, -5)
         scene.add(sofa)
     })
 

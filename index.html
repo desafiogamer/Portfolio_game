@@ -15,9 +15,26 @@
 <body>
 	<button id="paraTrilha"><i class="bi bi-volume-up-fill"></i></button>
 	<button id="ativarTrilha"><i class="bi bi-volume-mute-fill"></i></button>
-
+	<div id="joyDiv"></div>
 	<section class="inicio" id="inicio">
-		<h1 class="title">Habilidades</h1>
+		<div class="skillsContent">
+			<img src="./img/icons/bootstrap.png">
+			<img src="./img/icons/css.png">
+			<img src="./img/icons/django-icon.png">
+			<img src="./img/icons/git.png">
+			<img src="./img/icons/gsap.png">
+			<img src="./img/icons/html-5.png">
+			<img src="./img/icons/javascript-50.png">
+			<img src="./img/icons/jquery.png">
+			<img src="./img/icons/mysql-24.png">
+			<img src="./img/icons/postgreesql.png">
+			<img src="./img/icons/python.png">
+			<img src="./img/icons/three-js.png">
+		</div>
+		<div class="footer">
+			<div class="icon"><img src="./img/icons/icone.png"><i class="bi bi-search"></i></div>
+			<div class="iconeRede"><i class="bi bi-chevron-up"></i><img src="./img/icons/rede-removebg-preview.png"></div>
+		</div>
 	</section>
 
 	<section class="about" id="about">
@@ -29,7 +46,42 @@
 	</section>
 
 	<section class="contact" id="contact">
-		<h1 class="title">Contato</h1>
+		<div class="title-contact"><h1>Entre em contato</h1></div>
+		<form id="contact-form" method="POST" action="https://formsubmit.co/joaopap1234@gmail.com" enctype="multipart/form-data">
+			<input type="hidden" name="_captcha" value="false">
+			<input type="hidden" name="_next" value="http://127.0.0.1:5500">
+		
+			<div class="input-box">
+				<div class="input-field">
+					<input type="text" name="nome" placeholder="Nome completo" required>
+				</div>
+		
+				<div class="input-field">
+					<input type="email" name="email" placeholder="Endereço de email" required>
+				</div>
+			</div>
+		
+			<div class="input-box">
+				<div class="input-field">
+					<input type="text" name="telefone" placeholder="Numero de telefone" required>
+				</div>
+		
+				<div class="input-field">
+					<input type="text" name="assunto_email" placeholder="Assunto do email" required>
+				</div>
+			</div>
+		
+			<div class="textarea-field">
+				<textarea name="assunto" cols="30" rows="10" placeholder="Sua menssagem" required></textarea>
+			</div>
+		
+			<div class="btn">
+				<button type="submit">
+					<span class="texto">Enviar</span>
+					<span class="logo-enviar"><i class="bi bi-arrow-right"></i></span>
+				</button>
+			</div>
+		</form>
 	</section>
 	
 	<script type="importmap">
