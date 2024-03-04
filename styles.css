@@ -810,3 +810,94 @@ section{
 .contrib-box h3 {
     color: #00c3ff;
 }
+
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #242424;
+    z-index: 99999;
+}
+
+.loader .title {
+    color: white;
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: lighter;
+    text-align: center;
+    font-family: arial;
+}
+
+.loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+
+/*Loader Pin*/
+.loader-pin {
+    width: 50px;
+    height: 50px;
+    display: block;
+    margin-bottom: 40px;
+    box-sizing: border-box;
+    position: relative;
+    margin-left: 25px;
+}
+
+.loader-pin::after {
+    content: '';
+    box-sizing: border-box;
+    width: 50px;
+    height: 50px;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    border-radius: 50% 50% 0;
+    border: 12px solid #d91616;
+    background-color: #b50000;
+    transform: rotate(45deg) translate(0, 0);
+    box-sizing: border-box;
+    animation: animMarker 0.4s ease-in-out infinite alternate;
+}
+
+.loader-pin::before {
+
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    top: 150%;
+    width: 24px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.2);
+    animation: animShadow 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes animMarker {
+    0% {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    100% {
+        transform: rotate(45deg) translate(-5px, -5px);
+    }
+}
+
+@keyframes animShadow {
+    0% {
+        transform: scale(0.5);
+    }
+
+    100% {
+        transform: scale(1.1);
+    }
+}

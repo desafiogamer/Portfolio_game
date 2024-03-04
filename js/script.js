@@ -73,40 +73,11 @@ function init() {
     labelRenderer.domElement.style.pointerEvents = 'none'
     document.body.appendChild(labelRenderer.domElement)
 
-    //parede1 frontal
-    parede = new THREE.Mesh(new THREE.PlaneGeometry(40, 8));
-    parede.position.set(0, 4, -15)
-    scene.add(parede) 
-
-    //parede2 direta
-    const parede2 = new THREE.Mesh(new THREE.PlaneGeometry(20, 8));
-    parede2.position.set(20, 4, -5)
-    parede2.rotation.y = - Math.PI / 2;
-    scene.add(parede2)
-
-    //parede3 esquerda
-    const parede3 = new THREE.Mesh(new THREE.PlaneGeometry(20, 8));
-    parede3.position.set(-20, 4, -5)
-    parede3.rotation.y = + Math.PI / 2;
-    scene.add(parede3)
-
-    //parede4 traseira
-    const parede4 = new THREE.Mesh(new THREE.PlaneGeometry(40, 8));
-    parede4.rotation.y = Math.PI
-    parede4.position.set(0, 4, 5)
-    scene.add(parede4)
-
     //chão
     const mesh = new THREE.Mesh(new THREE.PlaneGeometry(40, 20));
     mesh.rotation.x = - Math.PI / 2;
     mesh.position.set(0,9,-5)
     scene.add(mesh);
-
-    //teto
-    const meshTeto = new THREE.Mesh(new THREE.PlaneGeometry(40, 20));
-    meshTeto.rotation.x = + Math.PI / 2;
-    meshTeto.position.set(0,9,-5)
-    scene.add(meshTeto);
 
     //texturas da paredes
     generateFloor()
@@ -238,7 +209,7 @@ function init() {
         trilha.setBuffer(buffer)
         trilha.setLoop(true)
         trilha.setVolume(0.5)
-        //trilha.play()
+        trilha.play()
     })
 
     //pcLigando
@@ -808,8 +779,6 @@ function init() {
             btn3.className = 'remove'
         })
     })
-
-
 
     //mesa
     const Mesa = new THREE.Object3D()

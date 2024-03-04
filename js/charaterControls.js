@@ -8,6 +8,7 @@ export class CharacterControls {
     animationsMap = new Map()
     orbitControl
     camera
+    trilha
 
     toggleRun = true
     currentAction
@@ -99,7 +100,6 @@ export class CharacterControls {
         this.cameraTarget.y = this.model.position.y + 1.3
         this.cameraTarget.z = this.model.position.z
         this.orbitControl.target = this.cameraTarget
-        
     }
 
     directionOffset(keysPressed) {
