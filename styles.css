@@ -28,6 +28,7 @@ body{
 }
 
 #paraTrilha{
+    display: none;
     position: fixed;
     right: 30px;
     top: 30px;
@@ -39,7 +40,6 @@ body{
 }
 
 #ativarTrilha {
-    display: none;
     position: fixed;
     right: 30px;
     top: 30px;
