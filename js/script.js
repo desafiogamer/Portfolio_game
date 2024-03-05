@@ -209,7 +209,7 @@ function init() {
         trilha.setBuffer(buffer)
         trilha.setLoop(true)
         trilha.setVolume(0.5)
-        trilha.play()
+        //trilha.play()
     })
 
     //pcLigando
