@@ -29,17 +29,17 @@ function init() {
     scene.add(ambientLight)
 
     const dirLight = new THREE.DirectionalLight(0xffffff, 1)
-    dirLight.position.set(- 60, 100, - 10);
-    dirLight.castShadow = true;
-    dirLight.shadow.camera.top = 50;
-    dirLight.shadow.camera.bottom = - 50;
-    dirLight.shadow.camera.left = - 50;
-    dirLight.shadow.camera.right = 50;
-    dirLight.shadow.camera.near = 0.1;
-    dirLight.shadow.camera.far = 200;
-    dirLight.shadow.mapSize.width = 4096;
-    dirLight.shadow.mapSize.height = 4096;
-    scene.add(dirLight);
+    //dirLight.position.set(- 60, 100, - 10);
+    //dirLight.castShadow = true;
+    //dirLight.shadow.camera.top = 50;
+    //dirLight.shadow.camera.bottom = - 50;
+    //dirLight.shadow.camera.left = - 50;
+    //dirLight.shadow.camera.right = 50;
+    //dirLight.shadow.camera.near = 0.1;
+    //dirLight.shadow.camera.far = 200;
+    //dirLight.shadow.mapSize.width = 4096;
+    //dirLight.shadow.mapSize.height = 4096;
+    //scene.add(dirLight);
 
     const ambientLightBlack = new THREE.AmbientLight(0x3d3d3d, 0.7)
 
@@ -209,7 +209,7 @@ function init() {
         trilha.setBuffer(buffer)
         trilha.setLoop(true)
         trilha.setVolume(0.5)
-        trilha.play()
+        //trilha.play()
     })
 
     //pcLigando
@@ -679,6 +679,27 @@ function init() {
         characterControls = new CharacterControls(model, mixer, animationsMap, orbitControls, camera, 'Idle')
     });
 
+    //guts
+    const guts = new THREE.Object3D()
+
+    loader.load('berserk_guts_black_swordsman.glb', function (glft) {
+        guts.add(glft.scene)
+        guts.traverse(function(object){
+            if(object.isMesh) object.castShadow = true
+        })
+        guts.scale.set(0.4, 0.4, 0.4)
+        guts.rotation.y = -1.5
+        guts.position.set(18.8, 0.3, 1)
+        scene.add(guts)
+        pContainer3.addEventListener('mousemove', ()=>{
+            btn3.className = 'ativo'
+        })
+       
+        pContainer3.addEventListener('mouseout', ()=>{
+            btn3.className = 'remove'
+        })
+    })
+
     //prateleira
     const prateleira = new THREE.Object3D()
 
@@ -757,27 +778,6 @@ function init() {
             mixerCat.clipAction(clip).clampWhenFinished = true;
         });
         
-    })
-
-    //guts
-    const guts = new THREE.Object3D()
-
-    loader.load('berserk_guts_black_swordsman.glb', function (glft) {
-        guts.add(glft.scene)
-        guts.traverse(function(object){
-            if(object.isMesh) object.castShadow = true
-        })
-        guts.scale.set(0.4, 0.4, 0.4)
-        guts.rotation.y = -1.5
-        guts.position.set(18.8, 0.3, 1)
-        scene.add(guts)
-        pContainer3.addEventListener('mousemove', ()=>{
-            btn3.className = 'ativo'
-        })
-       
-        pContainer3.addEventListener('mouseout', ()=>{
-            btn3.className = 'remove'
-        })
     })
 
     //mesa
