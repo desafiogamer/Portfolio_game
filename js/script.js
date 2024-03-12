@@ -39,7 +39,7 @@ function init() {
     //dirLight.shadow.camera.far = 200;
     //dirLight.shadow.mapSize.width = 4096;
     //dirLight.shadow.mapSize.height = 4096;
-    //scene.add(dirLight);
+    scene.add(dirLight);
 
     const ambientLightBlack = new THREE.AmbientLight(0x3d3d3d, 0.7)
 
