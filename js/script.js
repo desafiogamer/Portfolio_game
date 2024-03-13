@@ -59,7 +59,9 @@ function init() {
     flash5.position.set(0, 5.8, -11);
 
     //renderer
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({
+        antialias: true
+    });
     scene.fog = new THREE.FogExp2(0x11111f, 0.002);
     renderer.setClearColor(scene.fog.color);
     renderer.setSize(window.innerWidth, window.innerHeight);
