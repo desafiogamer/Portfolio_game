@@ -914,7 +914,7 @@ function init() {
 
         // Redimensiona o joystick se necessário
         function resizeJoystick() {
-            if (window.innerWidth <= 600) {
+            if (window.innerWidth <= 1000) {
                 joystick.style.display = 'block';
             } else {
                 joystick.style.display = 'none';
