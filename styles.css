@@ -56,6 +56,7 @@ section{
 
 #inicio{
     position: fixed;
+    display: none;
     bottom: 0;
     pointer-events: none;
     width: 0;
@@ -80,6 +81,7 @@ section{
 
 #about{
     position: fixed;
+    display: none;
     bottom: 0;
     pointer-events: none;
     width: 0;
@@ -109,14 +111,6 @@ section{
 
 #projetos i:hover {
     color: #ffee00;
-}
-
-#contact.ativo, #inicio.ativo, #about.ativo{
-    pointer-events: all;
-    color: #d2f3fc;
-    width: 95%;
-    height: 100vh;
-    animation: entrada .5s linear;
 }
 
 .fechar{
@@ -190,6 +184,7 @@ section{
     pointer-events: all;
     cursor: pointer;
     background: #c4c4c446;
+    color: white;
     backdrop-filter: blur(20px);
     border: none;
     padding: 10px 20px;
@@ -204,7 +199,8 @@ section{
 #contato button:hover,
 #projetos button:hover,
 #sobre button:hover {
-    color: #adff2f;
+    color: #242424;
+    background: #bdbdbd;
 }
 
 #home button.ativo,
@@ -351,7 +347,7 @@ section{
     background-image: url(./img/livro_Aberto.png);
     background-position: center;
     background-size: cover;
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items:center ;
@@ -811,6 +807,24 @@ section{
     color: #00c3ff;
 }
 
+#contact.ativo{
+    pointer-events: all;
+    display: flex;
+    color: #d2f3fc;
+    width: 95%;
+    height: 100vh;
+    animation: entrada .5s linear;
+}
+
+#inicio.ativo,
+#about.ativo {
+    pointer-events: all;
+    display: block;
+    color: #d2f3fc;
+    width: 95%;
+    height: 100vh;
+    animation: entrada .5s linear;
+}
 
 #preloader {
     position: fixed;
