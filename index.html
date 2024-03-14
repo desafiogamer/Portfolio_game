@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Olá pessoal finalizando mais um projeto pessoal, dessa vez juntei praticamente um jogo com website de portfólio, espero que gsotem">
+	<meta name="author" content="João vitor gentil da silva">
+	<meta name="Keywords" content="Portfolio,portfolio,vercel,joao vitor,threejs, three-js,programação,css,html,javascript,python,js,php,acessar,algoritmo,algoritmos,ambiente digital,ambientes virtuais,animações,animações,digitais,aplicativo,avanços tecnológicos">
+	<meta name="robots" content="index,follow">
+	<title>Portfólio | Game</title>
+	<link rel="shortcut icon" type="image/jpg" href="./img/icons/gsap.png" />
+	<link rel="stylesheet" href="styles.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script>
+		$(window).load(function () {
+			$('#status').fadeOut();
+			$('#preloader').delay(350).fadeOut('slow');
+			$('body').delay(350).css({ 'overflow': 'visible' });
+		})
+	</script>
+</head>
+<body>
+	<div id="preloader">
+		<div id="status">&nbsp;</div>
+		<div class="loader">
+			<span class="loader-pin"></span>
+			<span class="title">Carregando...</span>
+		</div>
+	</div>
+	<button id="paraTrilha"><i class="bi bi-volume-up-fill"></i></button>
+	<button id="ativarTrilha"><i class="bi bi-volume-mute-fill"></i></button>
+
+	<div id="instructions">
+		<p>Por favor, vire seu dispositivo para a orientação desejada.</p>
+	</div>
+	<button id="rotateButton">Virar Tela</button>
+
+	<div id="joystick">
+		<div id="handle"></div>
+	</div>
+
+	<section class="inicio" id="inicio">
+		<div class="skillsContent">
+			<img src="./img/icons/bootstrap.png">
+			<img src="./img/icons/css.png">
+			<img src="./img/icons/django-icon.png">
+			<img src="./img/icons/git.png">
+			<img src="./img/icons/gsap.png">
+			<img src="./img/icons/html-5.png">
+			<img src="./img/icons/javascript-50.png">
+			<img src="./img/icons/jquery.png">
+			<img src="./img/icons/mysql-24.png">
+			<img src="./img/icons/postgreesql.png">
+			<img src="./img/icons/python.png">
+			<img src="./img/icons/three-js.png">
+		</div>
+		<div class="footer">
+			<div class="icon"><img src="./img/icons/icone.png"><i class="bi bi-search"></i></div>
+			<div class="iconeRede"><i class="bi bi-chevron-up"></i><img src="./img/icons/rede-removebg-preview.png"></div>
+		</div>
+	</section>
+
+	<section class="about" id="about">
+		<div class="services-heading"><span>Sobre</span> Mim</div>
+		<div class="services-heading-one">Conheça um pouco <span>sobre mim</span></div>
+		<div class="eu">
+			<div class="card rotate">
+				<div class="avatar">
+					<img src="./img/1697566972634.jpg" alt="" />
+				</div>
+			</div>
+			<div class="ficha">
+				<p>Nome completo: <strong>João vitor gentil da silva</strong></p>
+				<p>Data de nascimento: <strong>03/03/2002</strong></p>
+				<p>Desenvolvedor: <strong>Full Stack</strong></p>
+				<p>Telefone: <strong>(+55) 19 9 997857719</strong></p>
+			</div>
+		</div>
+		<div class="services-content">
+			<div class="service-one service">
+				<div class="service-img">
+					<img src="img/coding.png" alt="service-one">
+				</div>
+				<div class="service-description">
+					<h2>Back End</h2>
+					<p>Atualmente trabalho com Django para o backend. <br>Trabalho em conjunto com o frontend para
+						entregar um produto completo para o usuário final. <br>Estou começando a estudar Nod.js para
+						aprimorar minha habilidades no backend.</p>
+				</div>
+			</div>
+		
+			<div class="service-three service">
+				<div class="service-img">
+					<img src="img/bulb.png" alt="service-three">
+				</div>
+				<div class="service-description">
+					<h2>Design criativo</h2>
+					<p>Busco soluções criativas e inovadoras para atender características dos produtos, necessidades do
+						cliente e da empresa de
+						forma sintonizada com as demandas e oportunidades do mercado.</p>
+				</div>
+			</div>
+		</div>
+		<div class="sobre-container">
+			<div class="titulo-box">
+				<h2><span>Histórias</span> cativantes geram designs magníficos.</h2>
+				<p>Olá sou João Vitor de 21 anos, sou desenvolvedor full stack, sou fascinado pelo mundo tecnológico.
+					<br>
+					Desde criança sempre gostei de jogos eletronicos, aos meus 17 anos senti curiosidade de como os
+					jogos eram criados
+					e fui pesquisar mais a fundo sobre. Foi ai que tive meu primeiro contato com programação aprendi
+					coisas basicas de criação de jogos
+					mais acabei que não dei continuidade e decidi parar com a programação. Bom... Era oque eu pensava
+					porque no começo de 2023 resolvi voltar
+					novamente só que dessa vez no desenvolvimento web.<br>Estudo diariamente para aprimorar minhas
+					habilidades. Busco não ser perfeito mais sim um dos melhores nesta área e com foco sei que vou
+					chegar lá.
+				<div class="contrib">
+					<div class="contrib-box">
+						<h3>1+</h3>
+						<span>Ano de experiencia</span>
+					</div>
+		
+					<div class="contrib-box">
+						<h3>16+</h3>
+						<span>Projetos finalizados</span>
+					</div>
+		
+					<div class="contrib-box">
+						<h3>2+</h3>
+						<span>Clientes satisfeitos</span>
+					</div>
+		
+					<div class="contribFour"></div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="contact" id="contact">
+		<div class="title-contact"><h1>Entre em contato.</h1></div>
+		<form id="contact-form" method="POST" action="https://formsubmit.co/joaopap1234@gmail.com" enctype="multipart/form-data">
+			<input type="hidden" name="_captcha" value="false">
+			<input type="hidden" name="_next" value="http://127.0.0.1:5500">
+		
+			<div class="input-box">
+				<div class="input-field">
+					<input type="text" name="nome" placeholder="Nome completo" required>
+				</div>
+		
+				<div class="input-field">
+					<input type="email" name="email" placeholder="Endereço de email" required>
+				</div>
+			</div>
+		
+			<div class="input-box">
+				<div class="input-field">
+					<input type="text" name="telefone" placeholder="Numero de telefone" required>
+				</div>
+		
+				<div class="input-field">
+					<input type="text" name="assunto_email" placeholder="Assunto do email" required>
+				</div>
+			</div>
+		
+			<div class="textarea-field">
+				<textarea name="assunto" cols="30" rows="10" placeholder="Sua menssagem" required></textarea>
+			</div>
+		
+			<div class="btn">
+				<button type="submit">
+					<span class="texto">Enviar</span>
+					<span class="logo-enviar"><i class="bi bi-arrow-right"></i></span>
+				</button>
+			</div>
+		</form>
+	</section>
+	
+	<script type="importmap">
+        {
+            "imports": {
+                "three": "../build/three.module.js"
+            }
+        }
+    </script>
+	<script src="./js/script.js" type="module"></script>
+</body>
+</html>
