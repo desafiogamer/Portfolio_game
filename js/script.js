@@ -840,96 +840,106 @@ function init() {
     })
 
     document.addEventListener('DOMContentLoaded', function () {
-        var joystick = document.getElementById('joystick');
-        var handle = document.getElementById('handle');
+        const joystick = document.getElementById('joystick');
+        const handle = document.getElementById('handle');
+        let joystickCenterX, joystickCenterY, handleRadius;
+        let isDragging = false;
+        let touchIdentifier = null;
+        let currentDirection = null;
 
         function resizeJoystick() {
-            if (window.innerWidth <= 1000) {
-                joystick.style.display = 'block';
+            const isMobile = window.innerWidth <= 1000;
+            joystick.style.display = isMobile ? 'block' : 'none';
+            if (isMobile) {
+                joystickCenterX = joystick.offsetLeft + joystick.offsetWidth / 2;
+                joystickCenterY = joystick.offsetTop + joystick.offsetHeight / 2;
+                handleRadius = handle.offsetWidth / 2;
             } else {
-                joystick.style.display = 'none';
-                soltarTodasTeclas();
+                releaseAllKeys();
             }
         }
 
         window.addEventListener('load', resizeJoystick);
         window.addEventListener('resize', resizeJoystick);
 
-        var joystickCenterX = joystick.offsetLeft + joystick.offsetWidth / 2;
-        var joystickCenterY = joystick.offsetTop + joystick.offsetHeight / 2;
-        var handleRadius = handle.offsetWidth / 2;
-
         handle.addEventListener('touchstart', function (e) {
+            if (isDragging) return;
             e.preventDefault();
+            const touch = e.touches[0];
+            touchIdentifier = touch.identifier;
+            isDragging = true;
             handle.style.transition = 'none';
-
             document.addEventListener('touchmove', onTouchMove);
             document.addEventListener('touchend', onTouchEnd);
         });
 
         function onTouchMove(e) {
-            var touch = e.touches[0];
-
-            var touchX = touch.clientX;
-            var touchY = touch.clientY;
-
-            var deltaX = touchX - joystickCenterX;
-            var deltaY = touchY - joystickCenterY;
-
-            var distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
+            if (!isDragging) return;
+            const touch = Array.from(e.touches).find(t => t.identifier === touchIdentifier);
+            if (!touch) return;
+            const touchX = touch.clientX;
+            const touchY = touch.clientY;
+            const deltaX = touchX - joystickCenterX;
+            const deltaY = touchY - joystickCenterY;
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
             if (distance < joystick.offsetWidth / 2 - handleRadius) {
-                handle.style.left = touchX - handleRadius + 'px';
-                handle.style.top = touchY - handleRadius + 'px';
+                moveHandle(touchX - handleRadius, touchY - handleRadius);
             } else {
-                var angle = Math.atan2(deltaY, deltaX);
-                var newX = joystickCenterX + (joystick.offsetWidth / 2 - handleRadius) * Math.cos(angle);
-                var newY = joystickCenterY + (joystick.offsetHeight / 2 - handleRadius) * Math.sin(angle);
-
-                handle.style.left = newX - handleRadius + 'px';
-                handle.style.top = newY - handleRadius + 'px';
-
-                var direction = '';
-
-                if (angle >= -Math.PI / 4 && angle < Math.PI / 4) {
-                    direction = 'D';
-                } else if (angle >= Math.PI / 4 && angle < 3 * Math.PI / 4) {
-                    direction = 'S'; 
-                } else if (angle >= -3 * Math.PI / 4 && angle < -Math.PI / 4) {
-                    direction = 'W';
-                } else {
-                    direction = 'A';
-                }
-
-                pressionarTecla(direction);
+                const angle = Math.atan2(deltaY, deltaX);
+                const newX = joystickCenterX + (joystick.offsetWidth / 2 - handleRadius) * Math.cos(angle);
+                const newY = joystickCenterY + (joystick.offsetHeight / 2 - handleRadius) * Math.sin(angle);
+                moveHandle(newX - handleRadius, newY - handleRadius);
+                sendKeyPress(angle);
             }
         }
 
-        function onTouchEnd() {
-            handle.style.transition = 'left 0.2s ease, top 0.2s ease';
-            handle.style.left = '50%';
-            handle.style.top = '50%';
+        function moveHandle(left, top) {
+            handle.style.transform = `translate(${left}px, ${top}px)`;
+        }
 
+        function onTouchEnd(e) {
+            const touch = Array.from(e.changedTouches).find(t => t.identifier === touchIdentifier);
+            if (!touch) return;
+            isDragging = false;
+            handle.style.transition = 'transform 0.2s ease';
+            handle.style.transform = 'translate(-50%, -50%)';
             document.removeEventListener('touchmove', onTouchMove);
             document.removeEventListener('touchend', onTouchEnd);
-
-            soltarTodasTeclas();
+            currentDirection = null;
+            releaseAllKeys();
         }
 
-        function pressionarTecla(tecla) {
-            var evento = new KeyboardEvent('keydown', {
-                key: tecla
+        function sendKeyPress(angle) {
+            let direction = '';
+            if (angle >= -Math.PI / 4 && angle < Math.PI / 4) {
+                direction = 'D';
+            } else if (angle >= Math.PI / 4 && angle < 3 * Math.PI / 4) {
+                direction = 'S';
+            } else if (angle >= -3 * Math.PI / 4 && angle < -Math.PI / 4) {
+                direction = 'W';
+            } else {
+                direction = 'A';
+            }
+            if (currentDirection !== direction) {
+                currentDirection = direction;
+                pressKey(direction);
+            }
+        }
+
+        function pressKey(key) {
+            const event = new KeyboardEvent('keydown', {
+                key: key
             });
-            document.dispatchEvent(evento);
+            document.dispatchEvent(event);
         }
 
-        function soltarTodasTeclas() {
-            var teclas = ['W', 'A', 'S', 'D'];
-            teclas.forEach(function (tecla) {
-                var evento = new KeyboardEvent('keyup', {
-                    key: tecla
+        function releaseAllKeys() {
+            const keys = ['W', 'A', 'S', 'D'];
+            keys.forEach(key => {
+                const event = new KeyboardEvent('keyup', {
+                    key: key
                 });
-                document.dispatchEvent(evento);
+                document.dispatchEvent(event);
             });
         }
     });
