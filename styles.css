@@ -941,23 +941,3 @@ section{
          /* Mostrar o botão apenas em dispositivos móveis */
      }
  }
-
- @media(max-width: 900px) {
-    #sobre, #contato,#home{
-        padding-bottom: 30px;
-        height: 150px;
-    }
-
-    .vozSkills{
-        width: 85%;
-        height: 30px;
-    }
-
- }
-
- @media(max-width: 768px) {
-    #projetoOne{
-        width: 170px;
-        height: 100px;
-    }
- }
