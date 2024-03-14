@@ -1003,16 +1003,6 @@ function init() {
             });
         }
     });
-
-    document.getElementById("rotateButton").addEventListener("click", function() {
-        if (screen.orientation) {
-            screen.orientation.lock("landscape");
-        } else if (screen.lockOrientation) {
-            screen.lockOrientation("landscape");
-        } else {
-            alert("Seu dispositivo não suporta a mudança de orientação forçada.");
-        }
-    });
     
     animate();
 }
