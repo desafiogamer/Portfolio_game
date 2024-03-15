@@ -916,42 +916,33 @@ section{
     }
 }
 
- #joystick {
-     width: 100px;
-     height: 100px;
-     background-color: #ccc;
-     border-radius: 50%;
-     position: fixed;
-     bottom: 20px;
-     /* Mover para a parte inferior */
-     left: 20px;
-     /* Mover para a parte esquerda */
- }
+#joystick {
+    position: fixed;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    bottom: 20px;
+    left: 20px;
+    width: 100px;
+    height: 100px;
+    background-color: #ffffff7e;
+    backdrop-filter: blur(30px);
+    border-radius: 50%;
+    overflow: hidden;
+}
 
- #handle {
-     width: 30px;
-     height: 30px;
-     background-color: #333;
-     border-radius: 50%;
-     position: absolute;
-     top: 50%;
-     left: 50%;
-     transform: translate(-50%, -50%);
-     cursor: pointer;
- }
+#stick {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-color: rgb(102, 102, 102);
+    border-radius: 50%;
+    transform: translate(0, 0);
+    transition: transform 0.1s ease-out;
+}
 
- #instructions {
-     display: none;
- }
-
- #rotateButton {
-     display: none;
-     /* Botão inicialmente oculto */
- }
-
- @media only screen and (max-width: 768px) {
-     #rotateButton {
-         display: block;
-         /* Mostrar o botão apenas em dispositivos móveis */
-     }
- }
+@media(max-width: 900px) {
+    #joystick {
+        display: flex;
+    }
+}
