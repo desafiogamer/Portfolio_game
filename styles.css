@@ -929,6 +929,7 @@ section{
     backdrop-filter: blur(30px);
     border-radius: 50%;
     overflow: hidden;
+    z-index: 999999;
 }
 
 #stick {
