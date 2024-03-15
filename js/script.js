@@ -839,111 +839,106 @@ function init() {
         labelRenderer.setSize(this.window.innerWidth, this.window.innerHeight)
     })
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const joystick = document.getElementById('joystick');
-        const handle = document.getElementById('handle');
-        let joystickCenterX, joystickCenterY, handleRadius;
-        let isDragging = false;
-        let touchIdentifier = null;
-        let currentDirection = null;
+    const joystick = document.getElementById('joystick');
+    const stick = document.getElementById('stick');
+    let stickOffsetX = 0;
+    let stickOffsetY = 0;
+    let isJoystickActive = false; // Variável para rastrear se o joystick está ativo
 
-        function resizeJoystick() {
-            const isMobile = window.innerWidth <= 1000;
-            joystick.style.display = isMobile ? 'block' : 'none';
-            if (isMobile) {
-                joystickCenterX = joystick.offsetLeft + joystick.offsetWidth / 2;
-                joystickCenterY = joystick.offsetTop + joystick.offsetHeight / 2;
-                handleRadius = handle.offsetWidth / 2;
-            } else {
-                releaseAllKeys();
-            }
-        }
-
-        window.addEventListener('load', resizeJoystick);
-        window.addEventListener('resize', resizeJoystick);
-
-        handle.addEventListener('touchstart', function (e) {
-            if (isDragging) return;
-            e.preventDefault();
-            const touch = e.touches[0];
-            touchIdentifier = touch.identifier;
-            isDragging = true;
-            handle.style.transition = 'none';
-            document.addEventListener('touchmove', onTouchMove);
-            document.addEventListener('touchend', onTouchEnd);
+    // Função para pressionar a tecla
+    function pressKey(key) {
+        const event = new KeyboardEvent('keydown', {
+            key: key
         });
+        document.dispatchEvent(event);
+    }
 
-        function onTouchMove(e) {
-            if (!isDragging) return;
-            const touch = Array.from(e.touches).find(t => t.identifier === touchIdentifier);
-            if (!touch) return;
-            const touchX = touch.clientX;
-            const touchY = touch.clientY;
-            const deltaX = touchX - joystickCenterX;
-            const deltaY = touchY - joystickCenterY;
-            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-            if (distance < joystick.offsetWidth / 2 - handleRadius) {
-                moveHandle(touchX - handleRadius, touchY - handleRadius);
-            } else {
-                const angle = Math.atan2(deltaY, deltaX);
-                const newX = joystickCenterX + (joystick.offsetWidth / 2 - handleRadius) * Math.cos(angle);
-                const newY = joystickCenterY + (joystick.offsetHeight / 2 - handleRadius) * Math.sin(angle);
-                moveHandle(newX - handleRadius, newY - handleRadius);
-                sendKeyPress(angle);
-            }
-        }
+    // Função para soltar a tecla
+    function releaseKey(key) {
+        const event = new KeyboardEvent('keyup', {
+            key: key
+        });
+        document.dispatchEvent(event);
+    }
 
-        function moveHandle(left, top) {
-            handle.style.transform = `translate(${left}px, ${top}px)`;
-        }
-
-        function onTouchEnd(e) {
-            const touch = Array.from(e.changedTouches).find(t => t.identifier === touchIdentifier);
-            if (!touch) return;
-            isDragging = false;
-            handle.style.transition = 'transform 0.2s ease';
-            handle.style.transform = 'translate(-50%, -50%)';
-            document.removeEventListener('touchmove', onTouchMove);
-            document.removeEventListener('touchend', onTouchEnd);
-            currentDirection = null;
-            releaseAllKeys();
-        }
-
-        function sendKeyPress(angle) {
-            let direction = '';
-            if (angle >= -Math.PI / 4 && angle < Math.PI / 4) {
-                direction = 'D';
-            } else if (angle >= Math.PI / 4 && angle < 3 * Math.PI / 4) {
-                direction = 'S';
-            } else if (angle >= -3 * Math.PI / 4 && angle < -Math.PI / 4) {
-                direction = 'W';
-            } else {
-                direction = 'A';
-            }
-            if (currentDirection !== direction) {
-                currentDirection = direction;
-                pressKey(direction);
-            }
-        }
-
-        function pressKey(key) {
-            const event = new KeyboardEvent('keydown', {
-                key: key
-            });
-            document.dispatchEvent(event);
-        }
-
-        function releaseAllKeys() {
-            const keys = ['W', 'A', 'S', 'D'];
-            keys.forEach(key => {
-                const event = new KeyboardEvent('keyup', {
-                    key: key
-                });
-                document.dispatchEvent(event);
-            });
+    joystick.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        if (!isJoystickActive) {
+            isJoystickActive = true; // Ativa o joystick apenas se não estiver em uso
+            const touch = e.touches[0];
+            const rect = joystick.getBoundingClientRect();
+            stickOffsetX = touch.clientX;
+            stickOffsetY = touch.clientY;
+            stick.style.transition = 'none';
+            moveStick(touch.clientX, touch.clientY);
         }
     });
-    
+
+    joystick.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        if (isJoystickActive) {
+            const touch = e.touches[0];
+            moveStick(touch.clientX, touch.clientY);
+        }
+    });
+
+    joystick.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        if (isJoystickActive) {
+            isJoystickActive = false; // Desativa o joystick quando o toque é encerrado
+            stick.style.transition = 'transform 0.1s ease-out';
+            stick.style.transform = 'translate(0, 0)';
+            releaseKey('w');
+            releaseKey('a');
+            releaseKey('s');
+            releaseKey('d');
+        }
+    });
+
+    function moveStick(x, y) {
+        const rect = joystick.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const deltaX = x - centerX;
+        const deltaY = y - centerY;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        const maxDistance = Math.min(rect.width, rect.height) / 2 - 25; // 25 = metade do tamanho do stick
+
+        if (distance > maxDistance) {
+            const ratio = maxDistance / distance;
+            x = centerX + deltaX * ratio;
+            y = centerY + deltaY * ratio;
+        }
+
+        stick.style.transform = `translate(${x - stickOffsetX}px, ${y - stickOffsetY}px)`;
+
+        // Calcular a direção
+        const angle = Math.atan2(deltaY, deltaX);
+        const angleInDegrees = angle * (180 / Math.PI);
+
+        if (angleInDegrees >= -135 && angleInDegrees < -45) {
+            releaseKey('d');
+            releaseKey('s');
+            releaseKey('a');
+            pressKey('w'); // Esquerda
+        } else if (angleInDegrees >= -45 && angleInDegrees < 45) {
+            releaseKey('w');
+            releaseKey('s');
+            releaseKey('a');
+            pressKey('d'); // Cima
+        } else if (angleInDegrees >= 45 && angleInDegrees < 135) {
+            releaseKey('w');
+            releaseKey('a');
+            releaseKey('d');
+            pressKey('s'); // Baixo
+        } else {
+            releaseKey('w');
+            releaseKey('d');
+            releaseKey('s');
+            pressKey('a'); // Direita
+        }
+    }
+
     animate();
 }
 
