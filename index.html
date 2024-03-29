@@ -135,36 +135,33 @@
 
 	<section class="contact" id="contact">
 		<div class="title-contact"><h1>Entre em contato.</h1></div>
-		<form id="contact-form" method="POST" action="https://formsubmit.co/joaopap1234@gmail.com" enctype="multipart/form-data">
-			<input type="hidden" name="_captcha" value="false">
-			<input type="hidden" name="_next" value="http://127.0.0.1:5500">
-		
+		<form id="contact-form" action="#">
 			<div class="input-box">
 				<div class="input-field">
-					<input type="text" name="nome" placeholder="Nome completo" required>
+					<input type="text" name="nome" placeholder="Nome completo" id="nome" required>
 				</div>
 		
 				<div class="input-field">
-					<input type="email" name="email" placeholder="Endereço de email" required>
+					<input type="email" name="email" placeholder="Endereço de email" id="email" required>
 				</div>
 			</div>
 		
 			<div class="input-box">
 				<div class="input-field">
-					<input type="text" name="telefone" placeholder="Numero de telefone" required>
+					<input type="text" name="telefone" placeholder="Numero de telefone" id="telefone" required>
 				</div>
 		
 				<div class="input-field">
-					<input type="text" name="assunto_email" placeholder="Assunto do email" required>
+					<input type="text" name="assunto_email" placeholder="Assunto do email" id="assunto" required>
 				</div>
 			</div>
 		
 			<div class="textarea-field">
-				<textarea name="assunto" cols="30" rows="10" placeholder="Sua menssagem" required></textarea>
+				<textarea name="assunto" cols="30" rows="10" placeholder="Sua menssagem" id="menssagem" required></textarea>
 			</div>
 		
 			<div class="btn">
-				<button type="submit">
+				<button id="envarMensagem">
 					<span class="texto">Enviar</span>
 					<span class="logo-enviar"><i class="bi bi-arrow-right"></i></span>
 				</button>
@@ -180,5 +177,7 @@
         }
     </script>
 	<script src="./js/script.js" type="module"></script>
+	<script src="https://smtpjs.com/v3/smtp.js"></script>
+	<script src="./js/sendmail.js"></script>
 </body>
 </html>
