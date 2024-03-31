@@ -200,13 +200,6 @@ section{
     transition: .3s;
 }
 
-#home button:hover,
-#contato button:hover,
-#projetos button:hover,
-#sobre button:hover {
-    color: #adff2f;
-}
-
 #home button.ativo,
 #contato button.ativo,
 #projetos button.ativo,

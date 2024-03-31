@@ -19,7 +19,7 @@ let scene,
     
 function init() {
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
+    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 100);
     camera.position.z = 1;
     camera.rotation.x = 1.16;
     camera.rotation.z = 0.27;
@@ -82,10 +82,6 @@ function init() {
     //texturas da paredes
     generateFloor()
     generateTelhado()
-    generateParede()
-    generateParede2()
-    generateParede3()
-    generateParede4()
 
     //telhado
     function generateTelhado() {
@@ -125,77 +121,59 @@ function init() {
         const geometry = new THREE.CircleGeometry(5, 32 );
         const material = new THREE.MeshPhongMaterial({ map: placeholder})
         const floor = new THREE.Mesh(geometry, material)
-        floor.receiveShadow = true
         floor.rotation.x = - Math.PI / 2
         floor.position.set(0,0.001,-5)
         scene.add(floor)
     }
 
     //parede frontal
-    function generateParede() {
+ 
         const textureLoader = new THREE.TextureLoader();
         const placeholder = textureLoader.load("./textures/placeholder/texturaParede.jpg");
-        const WIDTH = 40
-        const LENGTH = 9
-        const geometry = new THREE.PlaneGeometry(WIDTH, LENGTH, 40, 10);
+        const geometry = new THREE.PlaneGeometry(40, 9, 40, 10);
         const material = new THREE.MeshPhongMaterial({ map: placeholder})
         const floor = new THREE.Mesh(geometry, material)
-        floor.receiveShadow = true
         floor.position.set(0, 4.5, -14.9)
         scene.add(floor)
-    }
+
 
     //parede direita
-    function generateParede2() {
-        const textureLoader = new THREE.TextureLoader();
-        const placeholder = textureLoader.load("./textures/placeholder/texturaParede.jpg");
-        const WIDTH = 20
-        const LENGTH = 9
-        const geometry = new THREE.PlaneGeometry(WIDTH, LENGTH, 20, 10);
-        const material = new THREE.MeshPhongMaterial({ map: placeholder})
-        const floor = new THREE.Mesh(geometry, material)
-        floor.receiveShadow = true
-        floor.position.set(19.9, 4.5, -5)
-        floor.rotation.y = - Math.PI / 2;
-        scene.add(floor)
-    }
+
+        const geometry2 = new THREE.PlaneGeometry(20, 9, 20, 10);
+        const material2 = new THREE.MeshPhongMaterial({ map: placeholder})
+        const floor2 = new THREE.Mesh(geometry2, material2)
+        floor2.position.set(19.9, 4.5, -5)
+        floor2.rotation.y = - Math.PI / 2;
+        scene.add(floor2)
+
 
     //parede esquerda
-    function generateParede3() {
-        const textureLoader = new THREE.TextureLoader();
-        const placeholder = textureLoader.load("./textures/placeholder/texturaParede.jpg");
-        const WIDTH = 20
-        const LENGTH = 9
-        const geometry = new THREE.PlaneGeometry(WIDTH, LENGTH, 20, 10);
-        const material = new THREE.MeshPhongMaterial({ map: placeholder})
-        const floor = new THREE.Mesh(geometry, material)
-        floor.receiveShadow = false
-        floor.position.set(-19.9, 4.5, -5)
-        floor.rotation.y = + Math.PI / 2;
-        scene.add(floor)
-    }
+
+        const geometry3 = new THREE.PlaneGeometry(20,9, 20, 10);
+        const material3 = new THREE.MeshPhongMaterial({ map: placeholder})
+        const floor3 = new THREE.Mesh(geometry3, material3)
+        floor3.position.set(-19.9, 4.5, -5)
+        floor3.rotation.y = + Math.PI / 2;
+        scene.add(floor3)
+
 
     //parede traseira
-    function generateParede4() {
-        const textureLoader = new THREE.TextureLoader();
-        const placeholder = textureLoader.load("./textures/placeholder/texturaParede.jpg");
-        const WIDTH = 40
-        const LENGTH = 9
-        const geometry = new THREE.PlaneGeometry(WIDTH, LENGTH, 20, 10);
-        const material = new THREE.MeshPhongMaterial({ map: placeholder})
-        const floor = new THREE.Mesh(geometry, material)
-        floor.position.set(0, 4.5, 4.9)
-        floor.rotation.y = Math.PI
-        scene.add(floor)
-    }
+        const geometry4 = new THREE.PlaneGeometry(40, 9, 20, 10);
+        const material4 = new THREE.MeshPhongMaterial({ map: placeholder})
+        const floor4 = new THREE.Mesh(geometry4, material4)
+        floor4.position.set(0, 4.5, 4.9)
+        floor4.rotation.y = Math.PI
+        scene.add(floor4)
+
 
     //controles
     orbitControls = new OrbitControls(camera, renderer.domElement);
     orbitControls.enableDamping = true
     orbitControls.minDistance = 5.7
-    orbitControls.maxDistance = 15
+    orbitControls.maxDistance = 5.7
     orbitControls.enablePan = false
     orbitControls.maxPolarAngle = Math.PI / 2 - 0.05
+    orbitControls.enableZoom = false
     orbitControls.update();
 
     //SOM
@@ -209,7 +187,6 @@ function init() {
         trilha.setBuffer(buffer)
         trilha.setLoop(true)
         trilha.setVolume(0.5)
-        trilha.play()
     })
 
     //pcLigando
@@ -657,6 +634,7 @@ function init() {
     })
 
     //MODELOS 3D DA CENA
+    var characterPreviousPosition = new THREE.Vector3();
 
     //personagem controlado
     const loader = new GLTFLoader().setPath('./models/');
@@ -677,6 +655,37 @@ function init() {
         })
 
         characterControls = new CharacterControls(model, mixer, animationsMap, orbitControls, camera, 'Idle')
+        function checkCollisions() {
+            let collided = false;
+            const characterBoundingBox = new THREE.Box3().setFromObject(characterControls.model);
+
+            const objectsBoundingBoxes = [
+                new THREE.Box3().setFromObject(sofa),
+                new THREE.Box3().setFromObject(guts),
+                new THREE.Box3().setFromObject(Mesa),
+                new THREE.Box3().setFromObject(pc),
+                new THREE.Box3().setFromObject(floor),
+                new THREE.Box3().setFromObject(floor2),
+                new THREE.Box3().setFromObject(floor3),
+                new THREE.Box3().setFromObject(floor4),
+            ];
+            
+
+            objectsBoundingBoxes.forEach(objectBoundingBox => {
+                if (characterBoundingBox.intersectsBox(objectBoundingBox)) {
+                    collided = true;
+                }
+            });
+
+            if (collided) {
+                characterControls.model.position.copy(characterPreviousPosition);
+            } else {
+                characterPreviousPosition.copy(characterControls.model.position);
+            }
+            requestAnimationFrame(checkCollisions)
+        }
+        
+        checkCollisions();
     });
 
     //prateleira
@@ -762,14 +771,14 @@ function init() {
     //guts
     const guts = new THREE.Object3D()
 
-    loader.load('berserk_guts_black_swordsman.glb', function (glft) {
+    loader.load('goku.glb', function (glft) {
         guts.add(glft.scene)
         guts.traverse(function(object){
             if(object.isMesh) object.castShadow = true
         })
-        guts.scale.set(0.4, 0.4, 0.4)
-        guts.rotation.y = -1.5
-        guts.position.set(18.8, 0.3, 1)
+        guts.scale.set(4, 4, 4)
+        guts.rotation.y = 1.5
+        guts.position.set(18.8, 0, 1)
         scene.add(guts)
         pContainer3.addEventListener('mousemove', ()=>{
             btn3.className = 'ativo'
