@@ -31,6 +31,10 @@
 	<button id="paraTrilha"><i class="bi bi-volume-up-fill"></i></button>
 	<button id="ativarTrilha"><i class="bi bi-volume-mute-fill"></i></button>
 
+	<div id="joystick">
+		<div id="stick"></div>
+	</div>
+
 	<section class="inicio" id="inicio">
 		<div class="skillsContent">
 			<img src="./img/icons/bootstrap.png">
@@ -96,17 +100,17 @@
 		<div class="sobre-container">
 			<div class="titulo-box">
 				<h2><span>Histórias</span> cativantes geram designs magníficos.</h2>
-				<p>Olá sou João Vitor de 21 anos, sou desenvolvedor full stack, sou fascinado pelo mundo tecnológico.
-					<br>
-					Desde criança sempre gostei de jogos eletronicos, aos meus 17 anos senti curiosidade de como os
-					jogos eram criados
-					e fui pesquisar mais a fundo sobre. Foi ai que tive meu primeiro contato com programação aprendi
-					coisas basicas de criação de jogos
-					mais acabei que não dei continuidade e decidi parar com a programação. Bom... Era oque eu pensava
-					porque no começo de 2023 resolvi voltar
-					novamente só que dessa vez no desenvolvimento web.<br>Estudo diariamente para aprimorar minhas
-					habilidades. Busco não ser perfeito mais sim um dos melhores nesta área e com foco sei que vou
-					chegar lá.
+				<p>Olá sou João Vitor de 22 anos, sou desenvolvedor full stack, sou fascinado pelo mundo tecnológico.
+				<br>
+				Desde criança sempre gostei de jogos eletronicos, aos meus 17 anos senti curiosidade de como os
+				jogos eram criados
+				e fui pesquisar mais a fundo sobre a criação de jogos. Foi ai que tive meu primeiro contato com a programação aprendi
+				coisas basicas de criação de jogos,
+				mas acabei que não dei continuidade e decidi parar com a programação. Bom... Era oque eu pensava,
+				porque no começo de 2023 resolvi voltar
+				novamente para o mundo da programação só que dessa vez no desenvolvimento web.<br>Estudo diariamente para aprimorar
+				minhas
+				habilidades, desenvolvendo varios projetos pessoais.
 				<div class="contrib">
 					<div class="contrib-box">
 						<h3>1+</h3>
@@ -131,36 +135,33 @@
 
 	<section class="contact" id="contact">
 		<div class="title-contact"><h1>Entre em contato.</h1></div>
-		<form id="contact-form" method="POST" action="https://formsubmit.co/joaopap1234@gmail.com" enctype="multipart/form-data">
-			<input type="hidden" name="_captcha" value="false">
-			<input type="hidden" name="_next" value="http://127.0.0.1:5500">
-		
+		<form id="contact-form" action="#">
 			<div class="input-box">
 				<div class="input-field">
-					<input type="text" name="nome" placeholder="Nome completo" required>
+					<input type="text" name="nome" placeholder="Nome completo" id="nome" required>
 				</div>
 		
 				<div class="input-field">
-					<input type="email" name="email" placeholder="Endereço de email" required>
+					<input type="email" name="email" placeholder="Endereço de email" id="email" required>
 				</div>
 			</div>
 		
 			<div class="input-box">
 				<div class="input-field">
-					<input type="text" name="telefone" placeholder="Numero de telefone" required>
+					<input type="text" name="telefone" placeholder="Numero de telefone" id="telefone" required>
 				</div>
 		
 				<div class="input-field">
-					<input type="text" name="assunto_email" placeholder="Assunto do email" required>
+					<input type="text" name="assunto_email" placeholder="Assunto do email" id="assunto" required>
 				</div>
 			</div>
 		
 			<div class="textarea-field">
-				<textarea name="assunto" cols="30" rows="10" placeholder="Sua menssagem" required></textarea>
+				<textarea name="assunto" cols="30" rows="10" placeholder="Sua menssagem" id="menssagem" required></textarea>
 			</div>
 		
 			<div class="btn">
-				<button type="submit">
+				<button id="envarMensagem">
 					<span class="texto">Enviar</span>
 					<span class="logo-enviar"><i class="bi bi-arrow-right"></i></span>
 				</button>
@@ -176,5 +177,7 @@
         }
     </script>
 	<script src="./js/script.js" type="module"></script>
+	<script src="https://smtpjs.com/v3/smtp.js"></script>
+	<script src="./js/sendmail.js"></script>
 </body>
 </html>

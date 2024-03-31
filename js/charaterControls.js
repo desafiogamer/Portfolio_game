@@ -86,6 +86,7 @@ export class CharacterControls {
 
             const moveX = this.walkDirection.x * velocity * delta
             const moveZ = this.walkDirection.z * velocity * delta
+            
             this.model.position.x += moveX
             this.model.position.z += moveZ
             this.updateCameraTarget(moveX, moveZ)

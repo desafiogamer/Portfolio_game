@@ -11,7 +11,6 @@ let scene,
     orbitControls,
     keysPressed,
     labelRenderer,
-    parede,
     mixer, 
     mixer3, 
     mixerLivro,
@@ -19,7 +18,7 @@ let scene,
     
 function init() {
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
+    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 100);
     camera.position.z = 1;
     camera.rotation.x = 1.16;
     camera.rotation.z = 0.27;
@@ -29,17 +28,7 @@ function init() {
     scene.add(ambientLight)
 
     const dirLight = new THREE.DirectionalLight(0xffffff, 1)
-    //dirLight.position.set(- 60, 100, - 10);
-    //dirLight.castShadow = true;
-    //dirLight.shadow.camera.top = 50;
-    //dirLight.shadow.camera.bottom = - 50;
-    //dirLight.shadow.camera.left = - 50;
-    //dirLight.shadow.camera.right = 50;
-    //dirLight.shadow.camera.near = 0.1;
-    //dirLight.shadow.camera.far = 200;
-    //dirLight.shadow.mapSize.width = 4096;
-    //dirLight.shadow.mapSize.height = 4096;
-    //scene.add(dirLight);
+    scene.add(dirLight);
 
     const ambientLightBlack = new THREE.AmbientLight(0x3d3d3d, 0.7)
 
@@ -59,11 +48,12 @@ function init() {
     flash5.position.set(0, 5.8, -11);
 
     //renderer
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({
+        antialias: true
+    });
     scene.fog = new THREE.FogExp2(0x11111f, 0.002);
     renderer.setClearColor(scene.fog.color);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.shadowMap.enabled = true
     document.body.appendChild(renderer.domElement);
 
     labelRenderer = new CSS2DRenderer()
@@ -79,21 +69,50 @@ function init() {
     mesh.position.set(0,9,-5)
     scene.add(mesh);
 
+    //Paredes
+
+    //textura da parede
+    const textureLoader = new THREE.TextureLoader();
+    const placeholderParedefrontal = textureLoader.load("./textures/placeholder/texturaParede.jpg");
+    const materialParedefrontal = new THREE.MeshPhongMaterial({ map: placeholderParedefrontal})
+
+    //paredeFrontal
+    const geometryParedefrontal = new THREE.PlaneGeometry(40,9, 40, 10);
+    const floorParedefrontal = new THREE.Mesh(geometryParedefrontal,materialParedefrontal)
+    floorParedefrontal.position.set(0, 4.5, -14.9)
+    scene.add(floorParedefrontal)
+
+    //paredeDireita
+    const geometryParedeDireita = new THREE.PlaneGeometry(20,9, 20, 10);
+    const floorParedeDireita = new THREE.Mesh(geometryParedeDireita, materialParedefrontal)
+    floorParedeDireita.position.set(19.9, 4.5, -5)
+    floorParedeDireita.rotation.y = - Math.PI / 2;
+    scene.add(floorParedeDireita)
+
+    //paredeesquerda
+    const geometryParedeEsquerda = new THREE.PlaneGeometry(20,9, 20, 10);
+    const floorParedeEsquerda = new THREE.Mesh(geometryParedeEsquerda, materialParedefrontal)
+    floorParedeEsquerda.position.set(-19.9, 4.5, -5)
+    floorParedeEsquerda.rotation.y = + Math.PI / 2;
+    scene.add(floorParedeEsquerda)
+
+    //paredeTraseira
+    const geometryParedeTraseira = new THREE.PlaneGeometry(40,9, 40, 10);
+    const floorParedeTraseira = new THREE.Mesh(geometryParedeTraseira, materialParedefrontal)
+    floorParedeTraseira.position.set(0, 4.5, 4.91)
+    floorParedeTraseira.rotation.y = Math.PI
+    scene.add(floorParedeTraseira)
+
     //texturas da paredes
     generateFloor()
     generateTelhado()
-    generateParede()
-    generateParede2()
-    generateParede3()
-    generateParede4()
+    tapete()
 
     //telhado
     function generateTelhado() {
         const textureLoader = new THREE.TextureLoader();
         const placeholder = textureLoader.load("./textures/placeholder/forro.jpg");
-        const WIDTH = 40
-        const LENGTH = 20
-        const geometry = new THREE.PlaneGeometry(WIDTH, LENGTH, 512, 512);
+        const geometry = new THREE.PlaneGeometry(40, 20, 512, 512);
         const material = new THREE.MeshPhongMaterial({ map: placeholder})
         const floor = new THREE.Mesh(geometry, material)
         floor.rotation.x = + Math.PI / 2
@@ -105,18 +124,13 @@ function init() {
     function generateFloor() {
         const textureLoader = new THREE.TextureLoader();
         const placeholder = textureLoader.load("./textures/placeholder/forroMadeira.jpg");
-        const WIDTH = 40
-        const LENGTH = 20
-        const geometry = new THREE.PlaneGeometry(WIDTH, LENGTH, 512, 512);
+        const geometry = new THREE.PlaneGeometry(40, 20, 512, 512);
         const material = new THREE.MeshPhongMaterial({ map: placeholder})
         const floor = new THREE.Mesh(geometry, material)
-        floor.receiveShadow = true
         floor.rotation.x = - Math.PI / 2
         floor.position.set(0,0,-5)
         scene.add(floor)
     }
-
-    tapete()
 
     //tapete
     function tapete() {
@@ -125,67 +139,8 @@ function init() {
         const geometry = new THREE.CircleGeometry(5, 32 );
         const material = new THREE.MeshPhongMaterial({ map: placeholder})
         const floor = new THREE.Mesh(geometry, material)
-        floor.receiveShadow = true
         floor.rotation.x = - Math.PI / 2
         floor.position.set(0,0.001,-5)
-        scene.add(floor)
-    }
-
-    //parede frontal
-    function generateParede() {
-        const textureLoader = new THREE.TextureLoader();
-        const placeholder = textureLoader.load("./textures/placeholder/texturaParede.jpg");
-        const WIDTH = 40
-        const LENGTH = 9
-        const geometry = new THREE.PlaneGeometry(WIDTH, LENGTH, 40, 10);
-        const material = new THREE.MeshPhongMaterial({ map: placeholder})
-        const floor = new THREE.Mesh(geometry, material)
-        floor.receiveShadow = true
-        floor.position.set(0, 4.5, -14.9)
-        scene.add(floor)
-    }
-
-    //parede direita
-    function generateParede2() {
-        const textureLoader = new THREE.TextureLoader();
-        const placeholder = textureLoader.load("./textures/placeholder/texturaParede.jpg");
-        const WIDTH = 20
-        const LENGTH = 9
-        const geometry = new THREE.PlaneGeometry(WIDTH, LENGTH, 20, 10);
-        const material = new THREE.MeshPhongMaterial({ map: placeholder})
-        const floor = new THREE.Mesh(geometry, material)
-        floor.receiveShadow = true
-        floor.position.set(19.9, 4.5, -5)
-        floor.rotation.y = - Math.PI / 2;
-        scene.add(floor)
-    }
-
-    //parede esquerda
-    function generateParede3() {
-        const textureLoader = new THREE.TextureLoader();
-        const placeholder = textureLoader.load("./textures/placeholder/texturaParede.jpg");
-        const WIDTH = 20
-        const LENGTH = 9
-        const geometry = new THREE.PlaneGeometry(WIDTH, LENGTH, 20, 10);
-        const material = new THREE.MeshPhongMaterial({ map: placeholder})
-        const floor = new THREE.Mesh(geometry, material)
-        floor.receiveShadow = false
-        floor.position.set(-19.9, 4.5, -5)
-        floor.rotation.y = + Math.PI / 2;
-        scene.add(floor)
-    }
-
-    //parede traseira
-    function generateParede4() {
-        const textureLoader = new THREE.TextureLoader();
-        const placeholder = textureLoader.load("./textures/placeholder/texturaParede.jpg");
-        const WIDTH = 40
-        const LENGTH = 9
-        const geometry = new THREE.PlaneGeometry(WIDTH, LENGTH, 20, 10);
-        const material = new THREE.MeshPhongMaterial({ map: placeholder})
-        const floor = new THREE.Mesh(geometry, material)
-        floor.position.set(0, 4.5, 4.9)
-        floor.rotation.y = Math.PI
         scene.add(floor)
     }
 
@@ -193,9 +148,10 @@ function init() {
     orbitControls = new OrbitControls(camera, renderer.domElement);
     orbitControls.enableDamping = true
     orbitControls.minDistance = 5.7
-    orbitControls.maxDistance = 15
+    orbitControls.maxDistance = 5.7
     orbitControls.enablePan = false
     orbitControls.maxPolarAngle = Math.PI / 2 - 0.05
+    orbitControls.enableZoom = false
     orbitControls.update();
 
     //SOM
@@ -209,7 +165,6 @@ function init() {
         trilha.setBuffer(buffer)
         trilha.setLoop(true)
         trilha.setVolume(0.5)
-        //trilha.play()
     })
 
     //pcLigando
@@ -229,7 +184,6 @@ function init() {
         vozSkill.setLoop(false)
         vozSkill.setVolume(0.5)
     })
-
 
     //som sobre mim
     const joao = new THREE.Audio(listerner)
@@ -375,9 +329,7 @@ function init() {
     function skill(skill1,x,y,z) {
         const textureLoader = new THREE.TextureLoader();
         const placeholder = textureLoader.load(skill1);
-        const WIDTH = 0.8
-        const LENGTH = 0.8
-        const geometry = new THREE.PlaneGeometry(WIDTH, LENGTH, 1, 1);
+        const geometry = new THREE.PlaneGeometry(0.8, 0.8, 1, 1);
         const material = new THREE.MeshPhongMaterial({ map: placeholder})
         const floor = new THREE.Mesh(geometry, material)
         floor.position.set(x, y, z)
@@ -399,9 +351,7 @@ function init() {
     function quadro(projectOne, x, y, z, w, l) {
         const textureLoader = new THREE.TextureLoader();
         const placeholder = textureLoader.load(projectOne);
-        const WIDTH = w
-        const LENGTH = l
-        const geometry = new THREE.PlaneGeometry(WIDTH, LENGTH, 20, 10);
+        const geometry = new THREE.PlaneGeometry(w, l, 20, 10);
         const material = new THREE.MeshPhongMaterial({ map: placeholder})
         const floor = new THREE.Mesh(geometry, material)
         floor.position.set(x, y, z)
@@ -547,7 +497,6 @@ function init() {
     const p = document.createElement('p')
     const btn = document.createElement('button')
     btn.textContent = 'Entrar'
-    p.className = 'tooltip'
     p.textContent = 'Contato'
     const pContainer = document.createElement('div')
     pContainer.setAttribute('id', 'contato')
@@ -568,7 +517,6 @@ function init() {
     const p2 = document.createElement('p')
     const btn2 = document.createElement('button')
     btn2.textContent = 'Entrar'
-    p2.className = 'tooltip'
     p2.textContent = 'Skills'
     const pContainer2 = document.createElement('div')
     pContainer2.setAttribute('id', 'home')
@@ -598,7 +546,6 @@ function init() {
     const p3 = document.createElement('p')
     const btn3 = document.createElement('button')
     btn3.textContent = 'Entrar'
-    p3.className = 'tooltip'
     p3.textContent = 'Sobre'
     const pContainer3 = document.createElement('div')
     pContainer3.setAttribute('id', 'sobre')
@@ -657,15 +604,13 @@ function init() {
     })
 
     //MODELOS 3D DA CENA
+    var characterPreviousPosition = new THREE.Vector3();
 
     //personagem controlado
     const loader = new GLTFLoader().setPath('./models/');
     loader.load('personagem2.glb', function (glft) {
         const model = glft.scene
-        model.scale.set(1.2,1.2,1.2)
-        model.traverse(function(object){
-            if(object.isMesh) object.castShadow = true
-        })
+        model.scale.set(1.2,1.2,1.2) 
         scene.add(model)
 
         const gltfAnimations = glft.animations
@@ -677,19 +622,50 @@ function init() {
         })
 
         characterControls = new CharacterControls(model, mixer, animationsMap, orbitControls, camera, 'Idle')
+
+        function checkCollisions() {
+            let collided = false;
+            const characterBoundingBox = new THREE.Box3().setFromObject(characterControls.model);
+
+            const objectsBoundingBoxes = [
+                new THREE.Box3().setFromObject(guts),
+                new THREE.Box3().setFromObject(pc),
+                new THREE.Box3().setFromObject(sofa),
+                new THREE.Box3().setFromObject(Mesa),
+                new THREE.Box3().setFromObject(floorParedefrontal),
+                new THREE.Box3().setFromObject(floorParedeDireita),
+                new THREE.Box3().setFromObject(floorParedeEsquerda),
+                new THREE.Box3().setFromObject(floorParedeTraseira),
+            ];
+
+            objectsBoundingBoxes.forEach(objectBoundingBox => {
+                if (characterBoundingBox.intersectsBox(objectBoundingBox)) {
+                    collided = true;
+                }
+            });
+
+            if (collided) {
+                characterControls.model.position.copy(characterPreviousPosition);
+            } else {
+                characterPreviousPosition.copy(characterControls.model.position);
+            }
+        }
+
+        function update() {
+            checkCollisions();
+            requestAnimationFrame(update);
+        }
+        update() 
     });
 
     //guts
     const guts = new THREE.Object3D()
 
-    loader.load('berserk_guts_black_swordsman.glb', function (glft) {
+    loader.load('goku.glb', function (glft) {
         guts.add(glft.scene)
-        guts.traverse(function(object){
-            if(object.isMesh) object.castShadow = true
-        })
-        guts.scale.set(0.4, 0.4, 0.4)
-        guts.rotation.y = -1.5
-        guts.position.set(18.8, 0.3, 1)
+        guts.scale.set(4, 4, 4)
+        guts.rotation.y = 1.5
+        guts.position.set(18.8, 0, 1)
         scene.add(guts)
         pContainer3.addEventListener('mousemove', ()=>{
             btn3.className = 'ativo'
@@ -705,9 +681,6 @@ function init() {
 
     loader.load('shelf.glb', function (glft) {
         prateleira.add(glft.scene)
-        prateleira.traverse(function(object){
-            if(object.isMesh) object.castShadow = true
-        })
         prateleira.scale.set(0.2, 0.2, 0.2)
         prateleira.rotation.y = -1.6
         prateleira.position.set(19.5, 1, -5)
@@ -751,9 +724,6 @@ function init() {
 
     loader.load('gaming_setup_low-poly.glb', function (glft) {
         pc.add(glft.scene)
-        pc.traverse(function(object){
-            if(object.isMesh) object.castShadow = true
-        })
         pc.scale.set(1.3, 1.3, 1.3)
         pc.position.set(-18.7, 0, -5)
         scene.add(pc)
@@ -764,9 +734,6 @@ function init() {
 
     loader.load('cat_murdered_soul_suspect.glb', function (glft) {
         cat.add(glft.scene)
-        cat.traverse(function(object){
-            if(object.isMesh) object.castShadow = true
-        })
         cat.scale.set(0.03, 0.03, 0.03)
         cat.rotation.y = -1.5
         cat.position.set(0, 0, -14)
@@ -785,9 +752,6 @@ function init() {
 
     loader.load('table.glb', function (glft) {
         Mesa.add(glft.scene)
-        Mesa.traverse(function(object){
-            if(object.isMesh) object.castShadow = true
-        })
         Mesa.scale.set(0.3, 0.3, 0.3)
         Mesa.rotation.y = 1
         Mesa.position.set(19, 0, -10)
@@ -848,7 +812,7 @@ function init() {
 
     //meu card
     var card = document.querySelector('.card');
-    var rotateClass = 'rotate'; // demo
+    var rotateClass = 'rotate';
     var updateProperies = function (ratioX, ratioY) {
         card.style.setProperty('--ratio-x', ratioX);
         card.style.setProperty('--ratio-y', ratioY);
@@ -874,11 +838,112 @@ function init() {
         renderer.setSize(this.window.innerWidth, this.window.innerHeight)
         labelRenderer.setSize(this.window.innerWidth, this.window.innerHeight)
     })
-   
+
+    const joystick = document.getElementById('joystick');
+    const stick = document.getElementById('stick');
+    let stickOffsetX = 0;
+    let stickOffsetY = 0;
+    let isJoystickActive = false; // Variável para rastrear se o joystick está ativo
+
+    // Função para pressionar a tecla
+    function pressKey(key) {
+        const event = new KeyboardEvent('keydown', {
+            key: key
+        });
+        document.dispatchEvent(event);
+    }
+
+    // Função para soltar a tecla
+    function releaseKey(key) {
+        const event = new KeyboardEvent('keyup', {
+            key: key
+        });
+        document.dispatchEvent(event);
+    }
+
+    joystick.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        if (!isJoystickActive) {
+            isJoystickActive = true; // Ativa o joystick apenas se não estiver em uso
+            const touch = e.touches[0];
+            const rect = joystick.getBoundingClientRect();
+            stickOffsetX = touch.clientX;
+            stickOffsetY = touch.clientY;
+            stick.style.transition = 'none';
+            moveStick(touch.clientX, touch.clientY);
+        }
+    });
+
+    joystick.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        if (isJoystickActive) {
+            const touch = e.touches[0];
+            moveStick(touch.clientX, touch.clientY);
+        }
+    });
+
+    joystick.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        if (isJoystickActive) {
+            isJoystickActive = false; // Desativa o joystick quando o toque é encerrado
+            stick.style.transition = 'transform 0.1s ease-out';
+            stick.style.transform = 'translate(0, 0)';
+            releaseKey('w');
+            releaseKey('a');
+            releaseKey('s');
+            releaseKey('d');
+        }
+    });
+
+    function moveStick(x, y) {
+        const rect = joystick.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const deltaX = x - centerX;
+        const deltaY = y - centerY;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        const maxDistance = Math.min(rect.width, rect.height) / 2 - 25; // 25 = metade do tamanho do stick
+
+        if (distance > maxDistance) {
+            const ratio = maxDistance / distance;
+            x = centerX + deltaX * ratio;
+            y = centerY + deltaY * ratio;
+        }
+
+        stick.style.transform = `translate(${x - stickOffsetX}px, ${y - stickOffsetY}px)`;
+
+        // Calcular a direção
+        const angle = Math.atan2(deltaY, deltaX);
+        const angleInDegrees = angle * (180 / Math.PI);
+
+        if (angleInDegrees >= -135 && angleInDegrees < -45) {
+            releaseKey('d');
+            releaseKey('s');
+            releaseKey('a');
+            pressKey('w'); // Esquerda
+        } else if (angleInDegrees >= -45 && angleInDegrees < 45) {
+            releaseKey('w');
+            releaseKey('s');
+            releaseKey('a');
+            pressKey('d'); // Cima
+        } else if (angleInDegrees >= 45 && angleInDegrees < 135) {
+            releaseKey('w');
+            releaseKey('a');
+            releaseKey('d');
+            pressKey('s'); // Baixo
+        } else {
+            releaseKey('w');
+            releaseKey('d');
+            releaseKey('s');
+            pressKey('a'); // Direita
+        }
+    }
+
     animate();
 }
 
 const clock = new THREE.Clock()
+
 function animate() {
     let mixerupdateDelta = clock.getDelta()
         if(characterControls){
