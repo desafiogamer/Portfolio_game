@@ -56,7 +56,6 @@ section{
 
 #inicio{
     position: fixed;
-    display: none;
     bottom: 0;
     pointer-events: none;
     width: 0;
@@ -81,7 +80,6 @@ section{
 
 #about{
     position: fixed;
-    display: none;
     bottom: 0;
     pointer-events: none;
     width: 0;
@@ -111,6 +109,14 @@ section{
 
 #projetos i:hover {
     color: #ffee00;
+}
+
+#contact.ativo, #inicio.ativo, #about.ativo{
+    pointer-events: all;
+    color: #d2f3fc;
+    width: 95%;
+    height: 100vh;
+    animation: entrada .5s linear;
 }
 
 .fechar{
@@ -184,7 +190,6 @@ section{
     pointer-events: all;
     cursor: pointer;
     background: #c4c4c446;
-    color: white;
     backdrop-filter: blur(20px);
     border: none;
     padding: 10px 20px;
@@ -199,8 +204,7 @@ section{
 #contato button:hover,
 #projetos button:hover,
 #sobre button:hover {
-    color: #242424;
-    background: #bdbdbd;
+    color: #adff2f;
 }
 
 #home button.ativo,
@@ -347,7 +351,7 @@ section{
     background-image: url(./img/livro_Aberto.png);
     background-position: center;
     background-size: cover;
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items:center ;
@@ -807,24 +811,6 @@ section{
     color: #00c3ff;
 }
 
-#contact.ativo{
-    pointer-events: all;
-    display: flex;
-    color: #d2f3fc;
-    width: 95%;
-    height: 100vh;
-    animation: entrada .5s linear;
-}
-
-#inicio.ativo,
-#about.ativo {
-    pointer-events: all;
-    display: block;
-    color: #d2f3fc;
-    width: 95%;
-    height: 100vh;
-    animation: entrada .5s linear;
-}
 
 #preloader {
     position: fixed;
@@ -913,160 +899,5 @@ section{
 
     100% {
         transform: scale(1.1);
-    }
-}
-
-#joystick {
-    position: fixed;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    bottom: 20px;
-    left: 20px;
-    width: 100px;
-    height: 100px;
-    background-color: #ffffff7e;
-    backdrop-filter: blur(30px);
-    border-radius: 50%;
-    overflow: hidden;
-    z-index: 9999;
-}
-
-#stick {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background-color: #666666;
-    border-radius: 50%;
-    transform: translate(0, 0);
-    transition: transform 0.1s ease-out;
-}
-
-@media(max-width: 900px) {
-    #joystick {
-        display: flex;
-    }
-}
-
-@media(max-width: 768px) {
-    #inicio, #about{
-        padding-top: 60px;
-    }
-
-    #inicio.ativo{
-        width: 100%;
-        z-index: 9999;
-    }
-
-    #contact.ativo{
-        width: 100%;
-        z-index: 9999;
-    }
-
-    #about.ativo{
-        width: 100%;
-        z-index: 9999;
-    }
-
-    .fechar{
-        top: 60px;
-    }
-
-    .eu{
-        flex-direction: column;
-        padding: 0;
-        margin-top: 40px;
-        margin-bottom: 50px;
-    }
-
-    .ficha{
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        margin-top: 30px;
-    }
-
-    .ficha p{
-        margin-bottom: 15px;
-    }
-
-    .skillsContent{
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        margin-left: 20px;
-        margin-top: 20px;
-    }
-
-    .skillsContent img{
-        margin-right: 40px;
-        margin-bottom: 40px;
-    }
-
-    .services-content {
-        width: 90%;
-        display: flex;
-        flex-direction: column;
-        margin: auto;
-        padding: 0 3%;
-        padding-bottom: 10%;
-    }
-    
-    .service {
-        width: 100%;
-        height: auto;
-    }
-
-    .sobre-container {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .titulo-box {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin: 0;
-        margin-bottom: 80px;
-        text-align: center;
-        padding: 0 10px;
-    }
-
-
-    .titulo-box h1 {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-}
-
-@media(max-width: 600px){
-    .title-contact{
-        width: 80%; 
-    }
-
-    #contact-form {
-        width: 80%;
-    }
-
-    .input-field input {
-        font-size: 17px;
-    }
-
-    .textarea-field textarea{
-        font-size: 17px;
-    }
-}
-
-@media(max-width: 400px) {
-    .title-contact {
-        width: 90%;
-    }
-
-    #contact-form {
-        width: 90%;
     }
 }
