@@ -894,3 +894,32 @@ section{
         transform: scale(1.1);
     }
 }
+
+#joystick{
+    overflow: hidden;
+    position: fixed;
+    justify-content: center;
+    display: none;
+    border-radius: 50%;
+    align-items: center;
+    bottom: 20px;
+    left: 20px;
+    width: 100px;
+    height: 100px;
+    background-color: #ffffff7e;
+}
+
+#stick {
+    width: 30px;
+    height: 30px;
+    background-color: #666;
+    transform: translate(0, 0);
+    transition: transform .1s ease-out;
+    border-radius: 50%
+}
+
+@media(max-width:1000px) {
+    #joystick {
+        display: flex
+    }
+}
