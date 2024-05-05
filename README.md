@@ -4,3 +4,5 @@
 Fiz esse projeto apenas para apimorar minha habilidades com three-js, esse não é meu portfólio original, mas é um projeto baseado no meu portfólio de um jeito diferente e divertido de navegar.
 
 Aqui esta o deploy para voce conferir: <a href="https://portfolio-game-pi.vercel.app/" target="_blank">Link do projeto</a>
+
+![projetoGame (1)-min](https://github.com/desafiogamer/Portfolio_game/assets/145628900/979781da-9888-4c8f-8d48-c9274f2aeee7)
